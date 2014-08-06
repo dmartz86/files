@@ -1,0 +1,19 @@
+doctype html
+html(ng-app='FilesApp')
+  head
+    title Success Upload
+    link(rel='stylesheet', href='/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/font-awesome/css/font-awesome.min.css')
+
+  body
+    include layouts/header
+    .container-fluid
+      include content/success
+
+    include layouts/footer
+
+    script(type='text/javascript', src='/js/libs/jquery.min.js')
+    script(type='text/javascript', src='/js/libs/angular.min.js')
+    script(type='text/javascript', src='/js/libs/bootstrap.min.js')
+    script(type='text/javascript', src='/js/ng/app.js')
+    script(type='text/javascript', src='/js/ng/controller.js')

@@ -1,0 +1,20 @@
+
+.container(ng-controller='Controller')
+  form(action="/files", method="post", enctype="multipart/form-data")
+    .jumbotron
+      h1 File Uploader
+      p Select files to upload
+      .row
+        a.col-md-1.btn.btn-success.btn-lg(ng-click="add()") Add
+        a.col-md-1.btn.btn-danger.btn-lg(ng-click="clean()") Clean
+        .col-md-8
+        button.col-md-2.btn.btn-primary.btn-lg(type="submit") Send Files
+      .row
+        hr
+      .row
+        .form-group
+          .row(style="max-height: 150px; overflow-y: scroll; overflow-x: hidden;")
+            div
+              .col-md-4(ng-repeat="img in imageList")
+                input.btn.btn-lg.form-control(ng-model="img.name", type="file",class="filestyle",
+                  name="fileUploaded", requiered="requiered")
