@@ -1,4 +1,3 @@
-
 .container(ng-controller='Controller')
   form(action="/files", method="post", enctype="multipart/form-data")
     .jumbotron
@@ -14,10 +13,12 @@
         hr
       .row
         .form-group
-          .row(style="max-height: 150px; overflow-y: scroll; overflow-x: hidden;")
-            div
-              .col-md-4(ng-repeat="img in imageList")
-                input.btn.btn-lg.form-control(ng-model="img.name", type="file",class="filestyle",
-                  name="fileUploaded", requiered="requiered")
+          .row.imagelist
+            .col-md-4(ng-repeat="img in imageList")
+              input.btn.btn-lg.form-control(ng-model="img.name", 
+                type="file", name="fileUploaded", 
+                requiered="requiered")
   .row
-    a.btn.btn-default.co-md-3(ng-href="{{'file://'+file.path}}", ng-bind="getName(file.path)", ng-repeat="file in serverImagesList")
+    div(ng-repeat="file in serverImagesList")
+      a.col-md-4.btn.btn-primary(ng-bind="getName(file.name)",
+        ng-href="{{'/download/'+file._id}}")

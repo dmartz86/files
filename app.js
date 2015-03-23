@@ -17,36 +17,49 @@ app.use(multipart());
 var File = new MPill('files', require('./config.json').url);
 
 app.get('/', function(req, res) {
-	res.render('index');
+  res.render('index');
 });
 
 app.post('/files', function(req, res) {
-	//console.log(req.body, req.files);
-	if (req.files){
-		for (var f in req.files){
-			File.Insert(req.files[f],function(){
-				console.log('+')
-			});
-		}
-	}
+  //console.log(req.body, req.files);
+  if (req.files){
+    for (var f in req.files){
+      File.Insert(req.files[f],function(){
+        console.log('+')
+      });
+    }
+  }
 
-	res.render('success');
+  res.render('success');
 
-	/*fs.readFile(req.files.displayImage.path, function (err, data) {
-	  var newPath = __dirname + "/uploads/" + new Date().getTime();
-	  fs.writeFile(newPath, data, function (err) {
-	    res.render('success');
-	  });
-	});*/
+  /*fs.readFile(req.files.displayImage.path, function (err, data) {
+    var newPath = __dirname + "/uploads/" + new Date().getTime();
+    fs.writeFile(newPath, data, function (err) {
+      res.render('success');
+    });
+  });*/
 });
 
 app.get('/files', function(req, res) {
-	File.Find({},function(err, results){
-		res.json(results);
-	});
+  File.Find({},function(err, results){
+    res.json(results);
+  });
 });
 
+app.get('/download/:id', function(req, res) {
+  File.FindByObjectId({_id: req.params.id}, '_id',  function(err, theFile){
+    res.download(theFile.path, theFile.name, function(err){
+      if (err) {
+        console.log(res.headersSent);
+      } else {
+        File.UpdateByObjectId({_id: req.params.id}, {$inc: {downlads: 1}}, '_id', function(err, ack){
+          console.log('+1')
+        });
+      }
+    });
+  });
+});
 
 http.createServer(app).listen(app.get('port'), function() {
-	console.log('Express server listening on port ' + app.get('port'));
+  console.log('Express server listening on port ' + app.get('port'));
 });
